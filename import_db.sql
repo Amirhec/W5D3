@@ -1,3 +1,11 @@
+DROP TABLE IF EXISTS question_follows;
+DROP TABLE IF EXISTS questions_like;
+DROP TABLE IF EXISTS replies;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS users;
+
+
+
 PRAGMA foreign_keys = ON;
 -- Drop table?
 
@@ -5,6 +13,7 @@ CREATE TABLE users (
     author_id INTEGER PRIMARY KEY,
     fname TEXT NOT NULL,
     lname TEXT NOT NULL
+
 );
 
 CREATE TABLE questions ( 
@@ -48,7 +57,7 @@ INSERT INTO
 VALUES
     ('Bob', 'Smith');
 
-INSERT INTO 
-    questions (title, body, author_id)
-VALUES  
-    ('sample question', 'is this my sample question?', (SELECT id FROM users WHERE fname = 'Bob' AND lname = 'Smith'));
+-- INSERT INTO 
+--     questions (title, body, author_id)
+-- VALUES  
+    -- ('sample question', 'is this my sample question?', (SELECT author_id FROM users WHERE fname = 'Bob'));
