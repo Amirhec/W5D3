@@ -101,7 +101,63 @@ class QuestionFollows
 end
 
 class Replies
+    attr_accessor :replies_id, :parent_reply_id, :body, :author_id, :question_id
+
+    def self.all
+       data = QuestionsDatabase.instance.execute("SELECT * FROM replies")
+       data.map { |datum| Replies.new(datum) }
+     end
+   
+       def self.find_by_id(id)
+           reply = QuestionsDatabase.instance.execute(<<-SQL, replies_id)
+           SELECT 
+           *
+           FROM
+           replies
+           WHERE
+           replies_id = ?
+        SQL
+        return nil unless reply.length > 0
+        Replies.new(reply.first)
+       end
+   
+       def initialize(options)
+           @replies_id = options['replies_id']
+           @parent_reply_id = options['parent_reply_id']
+           @author_id = options['author_id']
+           @question_id = options['question_id']
+           @body = options['body']
+       end
+
 end
 
 class QuestionsLike
+    attr_accessor :id, :author_id, :question_id
+
+    def self.all
+       data = QuestionsDatabase.instance.execute("SELECT * FROM questions_like")
+       data.map { |datum| QuestionsLike.new(datum) }
+     end
+   
+       def self.find_by_id(id)
+           question_like = QuestionsDatabase.instance.execute(<<-SQL, id)
+           SELECT 
+           *
+           FROM
+           questions_like
+           WHERE
+           id = ?
+        SQL
+        return nil unless question_like.length > 0
+        QuestionsLike.new(question_like.first)
+       end
+   
+       def initialize(options)
+           @id = options['id']
+           @author_id = options['author_id']
+           @question_id = options['question_id']
+     
+       end
+       
+    
 end
